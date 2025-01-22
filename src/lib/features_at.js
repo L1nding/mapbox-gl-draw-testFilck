@@ -6,7 +6,8 @@ import StringSet from './string_set.js';
 const META_TYPES = [
   Constants.meta.FEATURE,
   Constants.meta.MIDPOINT,
-  Constants.meta.VERTEX
+  Constants.meta.VERTEX,
+  Constants.meta.ROTATE
 ];
 
 // Requires either event or bbox
