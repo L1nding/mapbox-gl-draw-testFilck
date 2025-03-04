@@ -597,14 +597,14 @@ declare class MapboxDraw implements IControl {
 
     getMode(): (MapboxDraw.DrawMode & {}) | string;
 
-    changeMode(mode: "simple_select", options?: { featureIds: string[] }): this;
-    changeMode(mode: "direct_select", options: { featureId: string }): this;
+    changeMode(mode: "simple_select", options?: { featureIds: string[] },force?:boolean): this;
+    changeMode(mode: "direct_select", options: { featureId: string },force?:boolean): this;
     changeMode(
         mode: "draw_line_string",
         options?: { featureId: string; from: Feature<Point> | Point | number[] },
     ): this;
     changeMode(mode: Exclude<MapboxDraw.DrawMode, "direct_select" | "simple_select" | "draw_line_string">): this;
-    changeMode<T extends string>(mode: T & (T extends MapboxDraw.DrawMode ? never : T), options?: object): this;
+    changeMode<T extends string>(mode: T & (T extends MapboxDraw.DrawMode ? never : T), options?: object,force?:boolean): this
 
     setFeatureProperty(featureId: string, property: string, value: any): this;
     

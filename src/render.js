@@ -3,40 +3,44 @@ import * as Constants from './constants.js';
 export default function render() {
   // eslint-disable-next-line no-invalid-this
   const store = this;
-  const mapExists = store.ctx.map && store.ctx.map.getSource(Constants.source) !== undefined;
+  const { ctx } = store;
+  const { map, events } = ctx;
+  const sourceId = Constants.source;
+  const mapExists = map && map.getSource(sourceId) !== undefined;
+
+  const cleanup = () => {
+    store.isDirty = false;
+    store.clearChangedIds();
+  };
+
   if (!mapExists) return cleanup();
 
-  const mode = store.ctx.events.currentModeName();
-
-  store.ctx.ui.queueMapClasses({ mode });
+  const mode = events.currentModeName();
+  // ctx.ui.queueMapClasses({ mode });
 
   const newIds = store.getAllIds();
-
   const lastCount = store.source.length;
-  store.source = [];
-  const changed = lastCount !== store.source.length || newIds.length > 0;
-  newIds.forEach(id => renderFeature(id));
+  const newFeatures = [];
 
-  function renderFeature(id) {
+  for (const id of newIds) {
     const feature = store.get(id);
     const featureInternal = feature.internal(mode);
-    store.ctx.events.currentModeRender(featureInternal, (geojson) => {
+    events.currentModeRender(featureInternal, (geojson) => {
       geojson.properties.mode = mode;
-      store.source.push(geojson);
+      newFeatures.push(geojson);
     });
   }
 
-  if (changed) {
-    store.ctx.map.getSource(Constants.source).setData({
+  store.source = newFeatures;
+  const hasChanges = lastCount !== newIds.length || newIds.length > 0;
+
+  if (hasChanges) {
+    const source = map.getSource(sourceId);
+    source.setData({
       type: Constants.geojsonTypes.FEATURE_COLLECTION,
-      features: store.source
+      features: newFeatures
     });
   }
 
   cleanup();
-
-  function cleanup() {
-    store.isDirty = false;
-    store.clearChangedIds();
-  }
 }

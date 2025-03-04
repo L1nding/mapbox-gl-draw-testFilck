@@ -1,4 +1,5 @@
-import area from '@mapbox/geojson-area';
+// import area from '@mapbox/geojson-area';
+import area from "@turf/area";
 import * as Constants from '../constants.js';
 
 const FEATURE_SORT_RANKS = {
@@ -22,11 +23,7 @@ function comparator(a, b) {
 function sortFeatures(features) {
   return features.map((feature) => {
     if (feature.geometry.type === Constants.geojsonTypes.POLYGON) {
-      feature.area = area.geometry({
-        type: Constants.geojsonTypes.FEATURE,
-        property: {},
-        geometry: feature.geometry
-      });
+      feature.area = area(feature.geometry);
     }
     return feature;
   }).sort(comparator).map((feature) => {

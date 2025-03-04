@@ -1,6 +1,6 @@
 const { MINIFY } = process.env;
 const minified = MINIFY === 'true';
-const outputFile = minified ? 'dist/index.js' : 'dist/mapbox-gl-draw-unminified.js';
+const outputFile = 'dist/index.js';
 import dts from 'rollup-plugin-dts';  // 导入 rollup-plugin-dts
 import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';

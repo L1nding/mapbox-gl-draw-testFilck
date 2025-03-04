@@ -152,7 +152,11 @@ export default function (ctx, api) {
     return api;
   };
 
-  api.changeMode = function (mode, modeOptions = {}) {
+  api.changeMode = function (mode, modeOptions = {}, force = false) {
+    if (force) {
+      ctx.events.changeMode(mode, modeOptions, { silent });
+      return api;
+    }
     // Avoid changing modes just to re-select what's already selected
     if (mode === Constants.modes.SIMPLE_SELECT && api.getMode() === Constants.modes.SIMPLE_SELECT) {
       if (stringSetsAreEqual((modeOptions.featureIds || []), ctx.store.getSelectedIds())) return api;

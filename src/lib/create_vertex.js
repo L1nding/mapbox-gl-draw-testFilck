@@ -1,5 +1,5 @@
 import * as Constants from '../constants.js';
-
+// import {generateID} from '../lib/id.js';
 /**
  * Returns GeoJSON for a Point representing the
  * vertex of another feature.
@@ -14,6 +14,7 @@ import * as Constants from '../constants.js';
 
 export default function(parentId, coordinates, path, selected) {
   return {
+    // id: generateID(),
     type: Constants.geojsonTypes.FEATURE,
     properties: {
       meta: Constants.meta.VERTEX,

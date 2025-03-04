@@ -76,7 +76,8 @@ export default function(ctx) {
           type: Constants.geojsonTypes.FEATURE_COLLECTION,
           features: []
         },
-        type: 'geojson'
+        type: 'geojson',
+        // dynamic: true
       });
 
       ctx.options.styles.forEach((style) => {
